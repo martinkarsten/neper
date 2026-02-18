@@ -24,6 +24,7 @@
  * as sending a message, opening a socket connection, or gathering statistics.
  */
 
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include "coef.h"
@@ -523,7 +524,7 @@ fn_add(struct neper_stat *stat, void *ptr)
 }
 
 static void rr_log_rtt(struct thread *tinfo, struct callbacks *cb,
-                       int num_transactions)
+                       uint64_t num_transactions)
 {
         const char *sep = " ";
         const char *ext = strrchr(tinfo[0].opts->log_rtt, '.');
@@ -565,7 +566,7 @@ static void rr_log_rtt(struct thread *tinfo, struct callbacks *cb,
 
         if (transactions_logged < num_transactions) {
                 LOG_INFO(cb,
-                         "rtt_transactions_logged (%ld) < num_transactions (%d)",
+                         "rtt_transactions_logged (%ld) < num_transactions (%lu)",
                          transactions_logged, num_transactions);
         }
 }
@@ -581,8 +582,8 @@ int rr_report_stats(struct thread *tinfo)
         if (opts->nostats)
                 return 0;
 
-        int num_events = thread_stats_events(tinfo);
-        PRINT(cb, "num_transactions", "%d", num_events);
+        uint64_t num_events = thread_stats_events(tinfo);
+        PRINT(cb, "num_transactions", "%lu", num_events);
 
         if (opts->client && tinfo[0].opts->log_rtt)
                 rr_log_rtt(tinfo, cb, num_events);

@@ -144,7 +144,8 @@ static void histo_all_finalize(struct neper_histo *impl)
 {
         const struct percentiles *pc = &impl->thread->opts->percentiles;
         double cent = impl->all_count / 100.0;
-        int sub = 0, v = 0, i;
+        int v = 0, i;
+        uint64_t sub = 0;
 
         if (!impl->first_all)
                 return;
@@ -161,7 +162,8 @@ static void histo_one_finalize(struct neper_histo *impl)
 {
         const struct percentiles *pc = &impl->thread->opts->percentiles;
         double cent = impl->one_count / 100.0;
-        int sub = 0, v = 0, i;
+        int v = 0, i;
+        uint64_t sub = 0;
 
         for (i = impl->one_min_index; i <= impl->one_max_index; i++) {
                 int n = impl->cur_buckets[i];

@@ -138,8 +138,8 @@ struct thread {
         long rtt_log_capacity;
 };
 
-int thread_stats_events(const struct thread *);
-int thread_stats_snaps(const struct thread *);
+uint64_t thread_stats_events(const struct thread *);
+uint64_t thread_stats_snaps(const struct thread *);
 void thread_init_noburst(struct thread *);
 
 /* Reserves and returns the next available timeslot based on the noburst rate

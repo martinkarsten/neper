@@ -142,10 +142,11 @@ thread_store_flow_or_die(struct thread *ts, struct flow *f) {
 
 /* Return the total number of events across all threads.  */
 
-int thread_stats_events(const struct thread *ts)
+uint64_t thread_stats_events(const struct thread *ts)
 {
         const struct options *opts = ts[0].opts;
-        int i, sum = 0;
+        int i;
+        uint64_t sum = 0;
 
         for (i = 0; i < opts->num_threads; i++) {
                 struct neper_stats *stats = ts[i].stats;
@@ -156,10 +157,11 @@ int thread_stats_events(const struct thread *ts)
 
 /* Return the total number of snapshots across all threads. */
 
-int thread_stats_snaps(const struct thread *ts)
+uint64_t thread_stats_snaps(const struct thread *ts)
 {
         const struct options *opts = ts[0].opts;
-        int i, sum = 0;
+        int i;
+        uint64_t sum = 0;
 
         for (i = 0; i < opts->num_threads; i++) {
                 struct neper_stats *stats = ts[i].stats;
@@ -211,11 +213,11 @@ struct neper_pq *thread_stats_pq(struct thread *ts)
         struct callbacks *cb = ts[0].cb;
         int i;
 
-        int num_snaps = thread_stats_snaps(ts);
-        PRINT(cb, "num_samples", "%d", num_snaps);
+        uint64_t num_snaps = thread_stats_snaps(ts);
+        PRINT(cb, "num_samples", "%lu", num_snaps);
         if (num_snaps < 2) {
                 LOG_ERROR(cb, "insufficient number of samples, "
-                          "needed 2 or more, got %d", num_snaps);
+                          "needed 2 or more, got %lu", num_snaps);
                 return NULL;
         }
 
